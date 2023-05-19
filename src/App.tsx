@@ -1,118 +1,91 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
 import React from 'react';
-import type {PropsWithChildren} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {NavigationContainer} from '@react-navigation/native';
+import {Image, StatusBar, View} from 'react-native';
+import {responsiveHeightScreen} from './utils/Constant';
+import Images from './resources/Images';
+import Home from './screens/Home';
+import Discover from './screens/Discover';
+import DahaCuzdan from './screens/DahaCuzdan';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
-
-function Section({children, title}: SectionProps): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
+const CustomTabBarButton = ({children}: any) => {
+  return(
+  <View style={{top: -8, justifyContent: 'center', alignItems: 'center'}}>
+    <View
+      style={{
+        width: 70,
+        height: 70,
+      }}>
+      {children}
     </View>
-  );
-}
+  </View>
+  )
+};
 
-function App(): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
+function MyTabs() {
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
+    <Tab.Navigator
+      screenOptions={({route}) => ({
+        headerShown: false,
+        tabBarActiveTintColor: '#1D1E1C',
+        tabBarStyle: {
+          height: responsiveHeightScreen('9px'),
+          paddingHorizontal: 5,
+          paddingTop: 0,
+          paddingBottom: 10,
+          backgroundColor: '#FFFFFF',
+          position: 'absolute',
+          borderTopWidth: 0,
+          borderTopRightRadius: 20,
+          borderTopLeftRadius: 20,
+        },
+        tabBarIcon: ({focused, color, size}) => {
+          let iconName;
+          if (route.name === 'KEŞFET') {
+            iconName = focused ? Images.discover : Images.gray_discover;
+          } else if (route.name === 'DAHA CÜZDAN') {
+            iconName = focused ? Images.star : Images.gray_star;
+          }
+          return (
+            <Image source={iconName} style={{width: size, height: size}} />
+          );
+        },
+      })}>
+      <Tab.Screen name="KEŞFET" component={Discover} />
+      <Tab.Screen
+        name=" "
+        component={Discover}
+        options={{
+          tabBarIcon: ({focused, color, size}) => {
+            let iconName = Images.portal;
+            return (
+              <Image source={iconName} style={{width: 80, height: 80}} />
+            );
+          },
+          tabBarButton:(props)=>{
+            return(
+              <CustomTabBarButton {...props}/>
+            )
+          }
+        }}
       />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+      <Tab.Screen name="DAHA CÜZDAN" component={DahaCuzdan} />
+    </Tab.Navigator>
   );
 }
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
+function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator screenOptions={{headerShown: false}}>
+        <Stack.Screen name="MyTabs" component={MyTabs} />
+        <Stack.Screen name="Home" component={Home} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
 
 export default App;
