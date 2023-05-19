@@ -5,9 +5,9 @@ import {NavigationContainer} from '@react-navigation/native';
 import {Image, StatusBar, View} from 'react-native';
 import {responsiveHeightScreen} from './utils/Constant';
 import Images from './resources/Images';
-import Home from './screens/Home';
+import DetailScreen from './screens/DetailScreen';
 import Discover from './screens/Discover';
-import DahaCuzdan from './screens/DahaCuzdan';
+
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -73,7 +73,7 @@ function MyTabs() {
           }
         }}
       />
-      <Tab.Screen name="DAHA CÜZDAN" component={DahaCuzdan} />
+      <Tab.Screen name="DAHA CÜZDAN" component={Discover} />
     </Tab.Navigator>
   );
 }
@@ -82,7 +82,7 @@ function App() {
     <NavigationContainer>
       <Stack.Navigator screenOptions={{headerShown: false}}>
         <Stack.Screen name="MyTabs" component={MyTabs} />
-        <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="DetailScreen" component={DetailScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -8,9 +8,11 @@ import {
 } from 'react-native';
 import React, {useState} from 'react';
 import Images from '../resources/Images';
-import {SCREEN_WIDTH} from '../utils/Constant';
+import MyCarousel from '../components/MyCarousel';
 
-type Props = {};
+type Props = {
+    navigation:any
+};
 
 const Discover = (props: Props) => {
   const [pressedIndex, setPressedIndex] = useState(null);
@@ -136,6 +138,8 @@ const Discover = (props: Props) => {
           );
         })}
       </ScrollView>
+
+      <MyCarousel navigation={props.navigation}/>
     </SafeAreaView>
   );
 };

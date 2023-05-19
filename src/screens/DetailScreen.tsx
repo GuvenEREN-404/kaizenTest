@@ -3,12 +3,12 @@ import React from 'react'
 
 type Props = {}
 
-const Home = (props: Props) => {
+const DetailScreen = (props: Props) => {
   return (
     <SafeAreaView>
-      <Text>Home</Text>
+      <Text>DetailScreen</Text>
     </SafeAreaView>
   )
 }
 
-export default Home
+export default DetailScreen

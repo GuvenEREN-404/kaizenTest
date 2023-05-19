@@ -10,6 +10,10 @@ export const Images = {
     burger_king:require('./images/burger_king.png'),
     trendyol:require('./images/trendyol.png'),
     sprite:require('./images/sprite.png'),
+    coca_cola:require('./images/coca_cola.png'),
+    sprite_carousel:require('./images/sprite_carousel.png'),
+    coca_cola_mini:require('./images/coca_cola_mini.png'),
+    sprite_mini:require('./images/sprite_mini.png'),
 }
 export default Images
   
