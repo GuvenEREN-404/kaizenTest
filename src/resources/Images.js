@@ -14,6 +14,8 @@ export const Images = {
     sprite_carousel:require('./images/sprite_carousel.png'),
     coca_cola_mini:require('./images/coca_cola_mini.png'),
     sprite_mini:require('./images/sprite_mini.png'),
+    coca_cola_detail_screen:require('./images/coca_cola_detail_screen.png'),
+    backIcon:require('./images/backIcon.png')
 }
 export default Images
   
