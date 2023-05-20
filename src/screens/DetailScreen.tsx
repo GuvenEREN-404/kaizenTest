@@ -85,7 +85,7 @@ const DetailScreen = (props: Props) => {
                     textAlign: 'center',
                     marginTop: responsiveHeight(7),
                   }}>
-                  son 12 gün
+                  {getTagsById?.RemainingText}
                 </Text>
               </View>
             </View>
