@@ -14,16 +14,22 @@ import {
   responsiveHeight,
   responsiveWidth,
 } from '../utils/Constant';
+import { useRoute } from '@react-navigation/native';
+import { UseGetTagsById } from '../api/service';
 
-type Props = {navigation: any};
+type Props = {navigation: any;route: any;};
 
 const DetailScreen = (props: Props) => {
+  const route = useRoute();
+  const { id } = route.params as { id: number };
+  const { data: getTagsById } = UseGetTagsById(id)
+  const regex = /(<([^>]+)>)/ig;
   return (
     <SafeAreaView style={{flex: 1}}>
       <ScrollView>
         <View style={{position: 'relative'}}>
           <Image
-            source={Images.coca_cola_detail_screen}
+            source={{uri:getTagsById?.ImageUrl}}
             style={{
               width: SCREEN_WIDTH,
               height: responsiveHeight(355),
@@ -60,7 +66,7 @@ const DetailScreen = (props: Props) => {
                 alignItems: 'center',
               }}>
               <Image
-                source={Images.coca_cola_mini}
+                source={{uri:getTagsById?.BrandIconUrl}}
                 style={{width: 65, height: 65, borderRadius: 50}}
               />
               <View
@@ -95,7 +101,7 @@ const DetailScreen = (props: Props) => {
               fontWeight: '700',
               marginBottom: 30,
             }}>
-            Her Altın Kapakta Bir Coca-Cola + Coffee Keyfi
+           {getTagsById?.Title.replace(regex,'')}
           </Text>
 
           <View style={{gap: 35}}>
@@ -106,13 +112,9 @@ const DetailScreen = (props: Props) => {
                 lineHeight: 22,
                 color: '#1D1E1C',
               }}>
-              Coca-Cola Coffee, kolanın lezzetini kahve aroması ile bir araya
-              getirir. Brezilya kahve çekirdeklerinin lezzetiyle aromalanan Coca
-              Cola, geleneksel lezzetine modern bir yorum katarak raflarda yer
-              alır. Yeni tatlara açık olanların beğenisini kazanan kahveli
-              Coca-Cola, kutu tasarımı ile çantada bile kolaylıkla taşınır.
+             {getTagsById?.Description.replace(regex,'')}
             </Text>
-            <Text
+          {/*   <Text
               style={{
                 fontSize: 14,
                 fontWeight: '400',
@@ -124,7 +126,7 @@ const DetailScreen = (props: Props) => {
               arasında yer almaktadır. İçeceğin soğuk tüketilmesi önerilir.
               Buzla beraber içilebilir. Özellikle sıcak yaz günlerinde
               ferahlatıcı etki gösterir.
-            </Text>
+            </Text> */}
           </View>
         </View>
       </ScrollView>

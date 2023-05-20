@@ -13,74 +13,59 @@ import {
   responsiveHeight,
   responsiveWidth,
 } from '../utils/Constant';
-import Images from '../resources/Images';
 
 export const SLIDER_WIDTH = Dimensions.get('window').width + 70;
 export const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 0.73);
 
 interface Item {
-  title: string;
+  Title: string;
   body: string;
-  imgUrl: any;
-  body_color: string;
-  mini_imgUrl: any;
+  ImageUrl: string;
+  PromotionCardColor: string;
+  BrandIconUrl: string;
+  Id:number;
 }
 
-interface Props{
-    navigation:any
+interface Props {
+  navigation: any;
+  data?: any;
 }
-const MyCarousel: React.FC<Props> = (props:Props) => {
+const MyCarousel: React.FC<Props> = (props: Props) => {
   const carouselRef = useRef<Carousel<Item>>(null);
+  const {data} = props;
   const [index, setIndex] = useState(0);
-  const data: Item[] = [
-    {
-      title: '2,5 LT Sprite kapakları 330 ML Kutu kazandırıyor!',
-      body: 'Daha Daha',
-      body_color: 'green',
-      imgUrl: Images.sprite_carousel,
-      mini_imgUrl: Images.sprite_mini,
-    },
-    {
-      title: '2,5 LT Coca-Cola kapakları Coca-Cola +Coffee kazandırıyor!',
-      body: 'Daha Daha',
-      body_color: 'red',
-      imgUrl: Images.coca_cola,
-      mini_imgUrl: Images.coca_cola_mini,
-    },
-    {
-      title: '2,5 LT Sprite kapakları 330 ML Kutu kazandırıyor!',
-      body: 'Daha Daha',
-      body_color: 'green',
-      imgUrl: Images.sprite_carousel,
-      mini_imgUrl: Images.sprite_mini,
-    },
-  ];
+  const regex = /(<([^>]+)>)/ig;
 
   const renderItem = ({item, index}: {item: Item; index: number}) => {
     return (
       <>
         <View style={styles.container} key={index}>
-          <Image source={item.imgUrl} style={styles.image} />
+          <Image source={{uri: item?.ImageUrl}} style={styles.image} />
           <View style={styles.mini_img_container}>
-            <Image source={item.mini_imgUrl} style={styles.mini_image} />
+            <Image
+              source={{uri: item.BrandIconUrl}}
+              style={styles.mini_image}
+            />
             <View style={styles.mini_img_view}>
               <Text style={styles.mini_img_text}>son 12 gün</Text>
             </View>
           </View>
           <View style={styles.header_container}>
-            <Text style={styles.header}>{item.title}</Text>
+            {/* html taglarını gizlemek için kütüphane kullanmayı denedim fakat çok eski oldukları için uygulama crash verdi */}
+            <Text style={styles.header}>{item.Title.replace(regex,'')}</Text>
           </View>
-          <TouchableOpacity onPress={()=>{
-             props.navigation.navigate('DetailScreen')
-          }}>
-            <Text style={{color: item.body_color, ...styles.body}}>
-              {item.body}
+          <TouchableOpacity
+            onPress={() => {
+              props.navigation.navigate('DetailScreen',{id:item.Id});
+            }}>
+            <Text style={{color: item.PromotionCardColor, ...styles.body}}>
+             Daha Daha
             </Text>
           </TouchableOpacity>
         </View>
         <View
           style={{
-            backgroundColor: item.body_color,
+            backgroundColor: item.PromotionCardColor,
             width: ITEM_WIDTH - 2,
             top: -60,
             height: 80,
@@ -108,12 +93,12 @@ const MyCarousel: React.FC<Props> = (props:Props) => {
         onSnapToItem={idx => setIndex(idx)}
       />
       <Pagination
-        dotsLength={data.length}
+        dotsLength={data?.length}
         activeDotIndex={index}
         carouselRef={carouselRef}
         renderDots={activeIndex => (
           <View style={styles.paginationContainer}>
-            {data.map((_, i) => (
+            {data?.map((_:any, i:any) => (
               <View
                 key={i}
                 style={[

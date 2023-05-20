@@ -9,6 +9,7 @@ import {
 import React, {useState} from 'react';
 import Images from '../resources/Images';
 import MyCarousel from '../components/MyCarousel';
+import {UseGetTags,UseGetPromotion} from '../api/service';
 
 type Props = {
     navigation:any
@@ -16,7 +17,8 @@ type Props = {
 
 const Discover = (props: Props) => {
   const [pressedIndex, setPressedIndex] = useState(null);
-
+  const { data: getTags } = UseGetTags()
+  const { data: getPromotion } = UseGetPromotion()
   const onPressInHandler = (index: any) => {
     setPressedIndex(index);
   };
@@ -24,25 +26,6 @@ const Discover = (props: Props) => {
   const onPressOutHandler = () => {
     setPressedIndex(null);
   };
-
-  const tabData = [
-    {
-      icon: Images.magnifying_glass,
-      name: 'Fırsat Bul',
-    },
-    {
-      icon: Images.burger_king,
-      name: 'Burger King',
-    },
-    {
-      icon: Images.trendyol,
-      name: 'Trendyol',
-    },
-    {
-      icon: Images.sprite,
-      name: 'Sprite',
-    },
-  ];
 
   return (
     <SafeAreaView>
@@ -101,45 +84,46 @@ const Discover = (props: Props) => {
         style={{marginRight: 15, marginLeft: 15, marginBottom: 20}}
         showsHorizontalScrollIndicator={false}
         horizontal>
-        {tabData.map((item: any, index: number) => {
-          return (
-            <TouchableOpacity
-              style={{
-                display: 'flex',
-                flexDirection: 'row',
-                padding: 6,
-                borderWidth: 1.5,
-                borderRadius: 12,
-                borderColor: pressedIndex === index ? '#F40000' : '#ECEEEF',
-                marginRight: 5,
-              }}
-              onPressIn={() => onPressInHandler(index)}
-              onPressOut={() => onPressOutHandler}>
-              <View
-                style={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  gap: 12,
-                  justifyContent: 'center',
-                  alignContent: 'center',
-                  alignItems: 'center',
-                }}>
-                <Image source={item.icon} style={{width: 40, height: 40}} />
-                <Text
-                  style={{
-                    fontSize: 12,
-                    fontWeight: '400',
-                    lineHeight: 13.8,
-                  }}>
-                  {item.name}
-                </Text>
-              </View>
-            </TouchableOpacity>
-          );
-        })}
+            {getTags?.map((item: any, index: number)=>{
+                 return (
+                    <TouchableOpacity
+                      style={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        padding: 6,
+                        borderWidth: 1.5,
+                        borderRadius: 12,
+                        borderColor: pressedIndex === index ? '#F40000' : '#ECEEEF',
+                        marginRight: 5,
+                      }}
+                      onPressIn={() => onPressInHandler(index)}
+                      onPressOut={() => onPressOutHandler}>
+                      <View
+                        style={{
+                          display: 'flex',
+                          flexDirection: 'row',
+                          gap: 12,
+                          justifyContent: 'center',
+                          alignContent: 'center',
+                          alignItems: 'center',
+                        }}>
+                        <Image source={{uri:item?.IconUrl}} style={{width: 40, height: 40}} />
+                        <Text
+                          style={{
+                            fontSize: 12,
+                            fontWeight: '400',
+                            lineHeight: 13.8,
+                          }}>
+                          {item?.Name}
+                        </Text>
+                      </View>
+                    </TouchableOpacity>
+                  );
+            })}
+        
       </ScrollView>
 
-      <MyCarousel navigation={props.navigation}/>
+      <MyCarousel data={getPromotion} navigation={props.navigation}/>
     </SafeAreaView>
   );
 };

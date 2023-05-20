@@ -6,7 +6,7 @@ export const END_POINTS = {
     },
     PROMOTIONS:{
         PROMOTIONS_LIST:`${MAIN_URL}/promotions/list?Channel=PWA`,
-        PROMOTIONS_BY_ID:`${MAIN_URL}promotions?Id={Id}`,
+        PROMOTIONS_BY_ID:`${MAIN_URL}/promotions?Id=`,
     }
    
 }

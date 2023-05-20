@@ -7,10 +7,13 @@ import {responsiveHeightScreen} from './utils/Constant';
 import Images from './resources/Images';
 import DetailScreen from './screens/DetailScreen';
 import Discover from './screens/Discover';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
+
+const queryClient = new QueryClient();
 
 const CustomTabBarButton = ({children}: any) => {
   return(
@@ -79,12 +82,14 @@ function MyTabs() {
 }
 function App() {
   return (
+    <QueryClientProvider client={queryClient}>
     <NavigationContainer>
       <Stack.Navigator screenOptions={{headerShown: false}}>
         <Stack.Screen name="MyTabs" component={MyTabs} />
         <Stack.Screen name="DetailScreen" component={DetailScreen} />
       </Stack.Navigator>
     </NavigationContainer>
+    </QueryClientProvider>
   );
 }
 
